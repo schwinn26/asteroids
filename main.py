@@ -23,15 +23,18 @@ def main():
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 return
+        
+        #create the screen and make it black
+        screen.fill("black", rect=None, special_flags=0)
 
-        screen.fill(000, rect=None, special_flags=0)
+        player.update(dt)
 
+        #draw player on the screen
         player.draw(screen)
 
         pygame.display.flip()
 
-        clock.tick(60)
-        dt = clock.tick()/1000
+        dt = clock.tick(60)/1000
 
 if __name__ == "__main__":
     main()
