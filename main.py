@@ -32,37 +32,41 @@ def main():
     Player.containers = (updatable_group, drawable_group, shots_group)
     Asteroid.containers = (asteroid_group, updatable_group, drawable_group)
     AsteroidField.containers = updatable_group
-
-    Shot.containers = (updatable_group, drawable_group)
+    Shot.containers = (shots_group, updatable_group, drawable_group)
 
     #set player size
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
-
-
     asteroid_field = AsteroidField()
 
 
     while True:
+
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
-                return
-        
-        #create the screen and make it black
-        screen.fill("black", rect=None, special_flags=0)
+                return    
 
         updatable_group.update(dt)
+
+        for asteroid in asteroid_group:
+            if CircleShape.collisions(asteroid, player):
+                raise SystemExit("Game over!")
+
+
+        for asteroid in asteroid_group:
+            for bullet in shots_group:
+                if CircleShape.collisions(asteroid, bullet):
+                    print("kill")
+                    asteroid.kill()
+                    bullet.kill()
+
+        #create the screen and make it black
+        screen.fill("black", rect=None, special_flags=0)
 
         #draw player on the screen
         for drawable in drawable_group:
             drawable.draw(screen)
 
         pygame.display.flip()
-
-        for asteroid in asteroid_group:
-            CircleShape.collisions(asteroid, player)
-
-        player.update(dt)
-        player.draw(screen)
 
         #this limits the game to 60fps
         dt = clock.tick(60)/1000
