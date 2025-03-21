@@ -55,8 +55,7 @@ def main():
         for asteroid in asteroid_group:
             for bullet in shots_group:
                 if CircleShape.collisions(asteroid, bullet):
-                    print("kill")
-                    asteroid.kill()
+                    asteroid.split()
                     bullet.kill()
 
         #create the screen and make it black
