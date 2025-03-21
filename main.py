@@ -7,6 +7,7 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import *
 from circleshape import CircleShape
+from shot import Shot
 
 def main():
     
@@ -26,10 +27,13 @@ def main():
     updatable_group = pygame.sprite.Group()
     drawable_group = pygame.sprite.Group()
     asteroid_group = pygame.sprite.Group()
+    shots_group = pygame.sprite.Group()
 
-    Player.containers = (updatable_group, drawable_group)
+    Player.containers = (updatable_group, drawable_group, shots_group)
     Asteroid.containers = (asteroid_group, updatable_group, drawable_group)
     AsteroidField.containers = updatable_group
+
+    Shot.containers = (updatable_group, drawable_group)
 
     #set player size
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
@@ -56,6 +60,9 @@ def main():
 
         for asteroid in asteroid_group:
             CircleShape.collisions(asteroid, player)
+
+        player.update(dt)
+        player.draw(screen)
 
         #this limits the game to 60fps
         dt = clock.tick(60)/1000
