@@ -6,6 +6,7 @@ from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import *
+from circleshape import CircleShape
 
 def main():
     
@@ -52,6 +53,9 @@ def main():
             drawable.draw(screen)
 
         pygame.display.flip()
+
+        for asteroid in asteroid_group:
+            CircleShape.collisions(asteroid, player)
 
         #this limits the game to 60fps
         dt = clock.tick(60)/1000
